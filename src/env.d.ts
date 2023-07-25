@@ -13,7 +13,7 @@ declare global {
   declare module 'fabric/fabric-impl' {
     interface IObjectOptions {
       /**
-       * 标识
+       * Identify
        */
       id?: string | undefined;
     }
