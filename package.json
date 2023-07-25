@@ -5,9 +5,8 @@
   "version": "1.0.0",
   "description": "a template project for vue3, ViewUIPlus, TypeScript and Vite.",
   "scripts": {
-    "serve": "npm run dev",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build",
+    "serve": "npm run dev",
     "dev": "vite serve",
     "dev:staging": "vite serve --mode=staging",
     "dev:prod": "vite serve --mode=production",
@@ -15,6 +14,7 @@
     "build:staging": "vite build --mode=staging",
     "preview": "npm run build && vite preview",
     "preview:staging": "npm run build:staging && vite preview --mode=staging",
+    "deploy": "gh-pages -d build",
     "prepare": "husky install"
   },
   "dependencies": {
