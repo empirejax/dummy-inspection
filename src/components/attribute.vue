@@ -125,7 +125,7 @@
             :min="3"
             :max="30"
             @on-change="changeEdge"
-            append="边数"
+            append="Sideline"
           ></InputNumber>
         </Col>
       </Row>

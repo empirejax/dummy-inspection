@@ -75,26 +75,26 @@ class LayerPlugin {
     if (activeObject) {
       return [
         {
-          text: '图层管理',
+          text: 'Layer Options',
           hotkey: '❯',
           subitems: [
             {
-              text: '上一个',
+              text: 'Previous',
               hotkey: 'key',
               onclick: () => this.up(),
             },
             {
-              text: '下一个',
+              text: 'Next',
               hotkey: 'key',
               onclick: () => this.down(),
             },
             {
-              text: '置顶',
+              text: 'Bring to Top',
               hotkey: 'key',
               onclick: () => this.upTop(),
             },
             {
-              text: '置底',
+              text: 'Send to Back',
               hotkey: 'key',
               onclick: () => this.downTop(),
             },

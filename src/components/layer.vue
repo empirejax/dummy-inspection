@@ -1,11 +1,3 @@
-<!--
- * @Author: 秦少卫
- * @Date: 2022-09-03 19:16:55
- * @LastEditors: 秦少卫
- * @LastEditTime: 2023-07-16 14:05:12
- * @Description: 图层面板
--->
-
 <template>
   <div class="box">
     <template v-if="list.length">
@@ -36,7 +28,7 @@
       </div>
     </template>
     <template v-else>
-      <p class="empty-text">暂无图层</p>
+      <p class="empty-text">No layer</p>
     </template>
   </div>
 </template>
@@ -80,13 +72,13 @@ const textType = (type, item) => {
     return item.name || item.text;
   }
   const typeText = {
-    group: '组合',
-    image: '图片',
-    rect: '矩形',
-    circle: '圆形',
-    triangle: '三角形',
-    polygon: '多边形',
-    path: '路径',
+    group: 'Combination',
+    image: 'Picture',
+    rect: 'Rectangle',
+    circle: 'Circular',
+    triangle: 'Triangle',
+    polygon: 'Polygonal',
+    path: 'path',
   };
   return typeText[type] || '默认元素';
 };

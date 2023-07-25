@@ -58,8 +58,8 @@ class CenterAlignPlugin {
     if (activeObject) {
       return [
         {
-          text: '水平垂直居中',
-          hotkey: 'Ctrl+V',
+          text: 'Center',
+          hotkey: 'Ctrl+C',
           disabled: false,
           onclick: () => this.position('center'),
         },

@@ -1,11 +1,3 @@
-<!--
- * @Author: 秦少卫
- * @Date: 2022-09-03 19:16:55
- * @LastEditors: 秦少卫
- * @LastEditTime: 2023-07-16 12:51:11
- * @Description: 插入SVG元素
--->
-
 <template>
   <div style="display: inline-block">
     <Dropdown transfer-class-name="fix" @on-click="insertTypeHand">
@@ -15,16 +7,16 @@
       </a>
       <template #list>
         <DropdownMenu>
-          <!-- 图片 -->
+          <!-- picture -->
           <DropdownItem name="insertImg">{{ $t('insertFile.insert_picture') }}</DropdownItem>
           <!-- SVG -->
           <DropdownItem name="insertSvg">{{ $t('insertFile.insert_SVG') }}</DropdownItem>
-          <!-- SVG 字符串 -->
+          <!-- SVG String -->
           <DropdownItem name="insertSvgStrModal">{{ $t('insertFile.insert_SVGStr') }}</DropdownItem>
         </DropdownMenu>
       </template>
     </Dropdown>
-    <!-- 插入字符串svg元素 -->
+    <!-- Insert a string SVG element -->
     <Modal
       v-model="state.showModal"
       :title="$t('insertFile.modal_tittle')"
@@ -52,7 +44,7 @@ const state = reactive({
   svgStr: '',
 });
 const HANDLEMAP = {
-  // 插入图片
+  // Insert picture
   insertImg: function () {
     selectFiles({ accept: 'image/*', multiple: true }).then((fileList) => {
       Array.from(fileList).forEach((item) => {
@@ -62,7 +54,7 @@ const HANDLEMAP = {
       });
     });
   },
-  // 插入Svg
+  // Insert SVG
   insertSvg: function () {
     selectFiles({ accept: '.svg', multiple: true }).then((fileList) => {
       Array.from(fileList).forEach((item) => {
@@ -72,12 +64,12 @@ const HANDLEMAP = {
       });
     });
   },
-  // 插入SVG元素
+  // Insert SVG element
   insertSvgStrModal: function () {
     state.svgStr = '';
     state.showModal = true;
   },
-  // 插入字符串元素
+  // Insert string element
   insertSvgStr: function () {
     fabric.loadSVGFromString(state.svgStr, (objects, options) => {
       const item = fabric.util.groupSVGElements(objects, {
@@ -94,31 +86,31 @@ const insertTypeHand = (type) => {
   const cb = HANDLEMAP[type];
   cb && typeof cb === 'function' && cb();
 };
-// 插入图片文件
+// Insert picture file
 function insertImgFile(file) {
   if (!file) throw new Error('file is undefined');
   const imgEl = document.createElement('img');
   imgEl.src = file;
-  // 插入页面
+  // Insert page
   document.body.appendChild(imgEl);
   imgEl.onload = () => {
-    // 创建图片对象
+    // Create a picture object
     const imgInstance = new fabric.Image(imgEl, {
       id: uuid(),
-      name: '图片1',
+      name: 'Imported Image',
       left: 100,
       top: 100,
     });
-    // 设置缩放
+    // Set the zoom
     canvasEditor.canvas.add(imgInstance);
     canvasEditor.canvas.setActiveObject(imgInstance);
     canvasEditor.canvas.renderAll();
-    // 删除页面中的图片元素
+    // Delete the picture elements in the page
     imgEl.remove();
   };
 }
 
-// 插入文件元素
+// Insert file element
 function insertSvgFile(svgFile) {
   if (!svgFile) throw new Error('file is undefined');
   fabric.loadSVGFromURL(svgFile, (objects, options) => {

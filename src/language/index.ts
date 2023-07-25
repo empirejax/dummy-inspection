@@ -1,5 +1,4 @@
 import { createI18n } from 'vue-i18n';
-import zh from 'view-ui-plus/dist/locale/zh-CN';
 import en from 'view-ui-plus/dist/locale/en-US'; //The new version changes 'IView' to 'View-Design'
 import US from './en.json';
 import CN from './zh.json';
@@ -8,7 +7,6 @@ import { LANG } from '../config/constants/app';
 
 const messages = {
   en: Object.assign(US, en), //Combine your English bag and IView
-  zh: Object.assign(CN, zh), //Combine your own Chinese bag and IView
 };
 
 function getLocalLang() {

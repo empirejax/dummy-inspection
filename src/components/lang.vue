@@ -28,7 +28,6 @@ import { LANG } from '@/config/constants/app';
 
 const $i18n = getCurrentInstance().appContext.config.globalProperties.$i18n;
 const LANGMAP = {
-  zh: '中文',
   en: 'En',
 };
 

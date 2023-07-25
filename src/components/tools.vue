@@ -243,7 +243,7 @@ const addTriangle = (option) => {
     height: 400,
     fill: '#92706B',
     id: uuid(),
-    name: '三角形',
+    name: 'triangle',
   });
   canvasEditor.canvas.add(triangle);
   if (!option) {
@@ -258,7 +258,7 @@ const addPolygon = (option) => {
     ...option,
     fill: '#ccc',
     id: uuid(),
-    name: '多边形',
+    name: 'Polygonal',
   });
   polygon.set({
     // 创建完设置宽高，不然宽高会变成自动的值
@@ -284,7 +284,7 @@ const addCircle = (option) => {
     radius: 150,
     fill: '#57606B',
     id: uuid(),
-    name: '圆形',
+    name: 'Circular',
   });
   canvasEditor.canvas.add(circle);
   if (!option) {
@@ -301,7 +301,7 @@ const addRect = (option) => {
     width: 400,
     height: 400,
     id: uuid(),
-    name: '矩形',
+    name: 'rectangle',
   });
   canvasEditor.canvas.add(rect);
   if (!option) {

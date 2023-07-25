@@ -1,14 +1,6 @@
-<!--
- * @Author: 秦少卫
- * @Date: 2022-09-03 19:16:55
- * @LastEditors: 秦少卫
- * @LastEditTime: 2023-07-05 00:57:21
- * @Description: 多元素或单元素对齐方式
--->
-
 <template>
   <div v-if="mixinState.mSelectMode" class="box attr-item">
-    <!-- 水平集中 -->
+    <!-- Horizontal concentration -->
     <Tooltip :content="$t('center_align.centerX')">
       <Button :disabled="!mixinState.mSelectMode" @click="position('centerH')" type="text">
         <svg
@@ -28,7 +20,7 @@
         </svg>
       </Button>
     </Tooltip>
-    <!-- 水平垂直居中 -->
+    <!-- Horizon -->
     <Tooltip :content="$t('center_align.center')">
       <Button :disabled="!mixinState.mSelectMode" @click="position('center')" type="text">
         <svg
@@ -54,7 +46,7 @@
         </svg>
       </Button>
     </Tooltip>
-    <!-- 垂直居中 -->
+    <!-- Vertical center -->
     <Tooltip :content="$t('center_align.centerY')">
       <Button :disabled="!mixinState.mSelectMode" @click="position('centerV')" type="text">
         <svg

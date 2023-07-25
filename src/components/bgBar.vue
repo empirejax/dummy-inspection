@@ -59,11 +59,11 @@ const colorList = [
 ];
 
 const color = ref('');
-// 背景颜色设置
+// Background color settings
 const setThisColor = () => {
   setColor(color.value);
 };
-// 背景颜色设置
+// Background color settings
 function setColor(color) {
   const workspace = canvasEditor.canvas.getObjects().find((item) => item.id === 'workspace');
   workspace.set('fill', color);

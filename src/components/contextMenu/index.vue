@@ -174,7 +174,7 @@ onMounted(() => {
     state.menu && (state.menu.oncontextmenu = (e) => e.preventDefault());
     init();
   });
-  // 监听点击 隐藏(右键点击外部和fabric右键有冲突，因为点击非canvas只有点击左键才可以隐藏)
+  //Surveillance click to hide (right -click on the outside and right -click with Fabric, because you can hide it if you click on the non -Canvas to hide)
   window.addEventListener('click', debounce(clickHide, 200));
 });
 
@@ -188,16 +188,16 @@ function handleMouseUp(opt) {
     const activeObject = ctx.getActiveObjects();
     if (!activeObject.length) return hideMenu();
     if (opt.button === 3 && opt.target && opt.target.id !== 'workspace') {
-      // 显示菜单，设置右键菜单位置
-      // 获取菜单组件的宽高
+      // Display menu, set the right -click menu position 
+       // Get the width height of the menu component
       const menuWidth = state.menu.offsetWidth;
       const menuHeight = state.menu.offsetHeight;
-      // 当前鼠标位置
+      // Current mouse location
       let pointX = opt.pointer.x;
       let pointY = opt.pointer.y;
 
-      // 计算菜单出现的位置
-      // 如果鼠标靠近画布右侧，菜单就出现在鼠标指针左侧
+     // Calculate the location of the menu appears 
+       // If the mouse is close to the right side of the picture, the menu appears on the left side of the mouse pointer
       if (ctx.width - pointX <= menuWidth) {
         pointX -= menuWidth;
       }
