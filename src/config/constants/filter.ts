@@ -1,4 +1,4 @@
-// UI类型
+
 export const uiType = {
   SELECT: 'select',
   COLOR: 'color',

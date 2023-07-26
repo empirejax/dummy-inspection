@@ -37,57 +37,13 @@ const { t } = useI18n();
 const { canvasEditor } = useSelect();
 const state = reactive({
   jsonFile: null,
-  list: [
-    {
-      label: '海报模板',
-      tempUrl: `${repoSrc}template/49234261-0187-4fdc-be80-f9dfb14c8bc6.json`,
-      src: `${repoSrc}template/49234261-0187-4fdc-be80-f9dfb14c8bc6.png`,
-    },
-    {
-      label: '旅游海报',
-      tempUrl: `${repoSrc}template/6ff9093a-4976-416b-8285-db5496842487.json`,
-      src: `${repoSrc}template/6ff9093a-4976-416b-8285-db5496842487.png`,
-    },
-    {
-      label: '邀请海报',
-      tempUrl: `${repoSrc}template/b40fee28-de9f-4304-a07e-2f55d36f137e.json`,
-      src: `${repoSrc}template/b40fee28-de9f-4304-a07e-2f55d36f137e.png`,
-    },
-  ],
+  list: [],
 });
 
-// 插入文件
 const insertSvgFile = () => {
-  // state.jsonFile
-  // console.log(state.jsonFile);
   canvasEditor.insertSvgFile(state.jsonFile);
-  // Spin.show({
-  //   render: (h) => h('div', t('alert.loading_fonts')),
-  // });
-
-  // downFontByJSON(state.jsonFile)
-  //   .then(() => {
-  //     Spin.hide();
-  //     canvas.c.loadFromJSON(state.jsonFile, () => {
-  //       canvas.c.renderAll.bind(canvas.c);
-  //       setTimeout(() => {
-  //         const workspace = canvas.c.getObjects().find((item) => item.id === 'workspace');
-  //         workspace.set('selectable', false);
-  //         workspace.set('hasControls', false);
-  //         canvas.c.requestRenderAll();
-  //         canvas.editor.editorWorkspace.setSize(workspace.width, workspace.height);
-  //         canvas.c.renderAll();
-  //         canvas.c.requestRenderAll();
-  //       }, 100);
-  //     });
-  //   })
-  //   .catch(() => {
-  //     Spin.hide();
-  //     Message.error(t('alert.loading_fonts_failed'));
-  //   });
 };
 
-// 获取模板列表数据
 const getTempList = () => {
   Spin.show({
     render: (h) => h('div', t('alert.loading_data')),
@@ -105,7 +61,6 @@ const getTempList = () => {
     .catch(Spin.hide);
 };
 
-// 获取模板数据
 const getTempData = (tmplUrl) => {
   Spin.show({
     render: (h) => h('div', t('alert.loading_data')),

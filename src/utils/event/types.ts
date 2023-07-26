@@ -12,7 +12,6 @@ export enum SelectMode {
 export enum SelectOneType {
   EMPTY = '',
   GROUP = 'group',
-  POLYGON = 'polygon',
 }
 
 // 选择事件（用于广播）

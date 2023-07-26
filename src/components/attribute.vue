@@ -302,7 +302,6 @@ const baseType = [
   'rect',
   'circle',
   'triangle',
-  'polygon',
   'image',
   'group',
   'line',
@@ -589,7 +588,7 @@ const changeUnderline = (key, value) => {
   canvasEditor.canvas.renderAll();
 };
 
-// 修改边数
+// Modify the edge number
 const changeEdge = (value) => {
   const activeObjects = canvasEditor.canvas.getActiveObjects();
   if (!activeObjects || !activeObjects.length) return;

@@ -134,10 +134,10 @@ const config = ({ mode }) => {
       port: 3000,
       open: true,
       proxy: {
-        '/fontFile': {
+        '/api': {
           target: 'https://github.com/',
           changeOrigin: true,
-          rewrite: (path) => path.replace(/^\/fontFile/, ''),
+          rewrite: (path) => path.replace(/^\/api/, ''),
         },
       },
     },

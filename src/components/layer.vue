@@ -17,7 +17,7 @@
           </Tooltip>
         </div>
       </div>
-      <!-- 层级调整按钮 -->
+      <!-- Hierarchical adjustment button -->
       <div class="btn-box">
         <ButtonGroup v-show="mixinState.mSelectMode === 'one'" size="small">
           <Button @click="up"><span v-html="btnIconType('up')"></span></Button>
@@ -39,12 +39,12 @@ const { canvas, canvasEditor, fabric, mixinState } = useSelect();
 
 const list = ref([]);
 
-// 是否选中元素
+// Whether to select elements
 const isSelect = (item) => {
   return item.id === mixinState.mSelectId || mixinState.mSelectIds.includes(item.id);
 };
 
-// 图层类型图标
+// Layer type icon
 const iconType = (type) => {
   const iconType = {
     group:
@@ -60,8 +60,6 @@ const iconType = (type) => {
       '<svg t="1650855860236" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="19440" width="16" height="16"><path d="M512 928C282.624 928 96 741.376 96 512S282.624 96 512 96s416 186.624 416 416-186.624 416-416 416z m0-768C317.92 160 160 317.92 160 512s157.92 352 352 352 352-157.92 352-352S706.08 160 512 160z" p-id="19441"></path></svg>',
     triangle:
       '<svg t="1650874633978" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2032" width="16" height="16"><path d="M928.64 896a2.144 2.144 0 0 1-0.64 0H96a32.032 32.032 0 0 1-27.552-48.288l416-704c11.488-19.456 43.552-19.456 55.104 0l413.152 699.2A31.936 31.936 0 0 1 928.64 896zM152.064 832h719.84L512 222.912 152.064 832z" p-id="2033"></path></svg>',
-    polygon:
-      '<svg t="1650874633978" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2032" width="16" height="16"><path d="M161.152 398.016l134.016 412.416h433.664l134.016-412.416L512 143.104 161.152 398.08zM512 64l426.048 309.568-162.752 500.864H248.704L85.952 373.568 512 64z" p-id="2033"></path></svg>',
   };
   const defaultIcon =
     '<svg t="1650855578257" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="17630" width="16" height="16"><path d="M620.606061 0a62.060606 62.060606 0 0 1 62.060606 62.060606v188.943515C874.945939 273.997576 1024 437.651394 1024 636.121212c0 214.217697-173.661091 387.878788-387.878788 387.878788-198.469818 0-362.123636-149.054061-385.117091-341.333333H62.060606a62.060606 62.060606 0 0 1-62.060606-62.060606V62.060606a62.060606 62.060606 0 0 1 62.060606-62.060606h558.545455z m62.060606 297.937455V620.606061a62.060606 62.060606 0 0 1-62.060606 62.060606H297.937455C320.636121 849.159758 463.39103 977.454545 636.121212 977.454545c188.509091 0 341.333333-152.824242 341.333333-341.333333 0-172.730182-128.294788-315.485091-294.787878-338.183757zM620.606061 46.545455H62.060606a15.515152 15.515152 0 0 0-15.406545 13.699878L46.545455 62.060606v558.545455a15.515152 15.515152 0 0 0 13.699878 15.406545L62.060606 636.121212h186.181818c0-214.217697 173.661091-387.878788 387.878788-387.878788V62.060606a15.515152 15.515152 0 0 0-13.699879-15.406545L620.606061 46.545455z m15.515151 248.242424c-188.509091 0-341.333333 152.824242-341.333333 341.333333h325.818182a15.515152 15.515152 0 0 0 15.406545-13.699879L636.121212 620.606061V294.787879z" p-id="17631"></path></svg>';
@@ -77,10 +75,9 @@ const textType = (type, item) => {
     rect: 'Rectangle',
     circle: 'Circular',
     triangle: 'Triangle',
-    polygon: 'Polygonal',
     path: 'path',
   };
-  return typeText[type] || '默认元素';
+  return typeText[type] || 'Default element';
 };
 // 选中元素
 const select = (id) => {
@@ -116,11 +113,11 @@ const downTop = () => {
 };
 
 const getList = () => {
-  // 不改原数组 反转
+  // Do not change the original array reversal
   list.value = [
     ...canvasEditor.canvas.getObjects().filter((item) => {
       // return item;
-      // 过滤掉辅助线
+      // Filter the auxiliary line
       return !(item instanceof fabric.GuideLine || item.id === 'workspace');
     }),
   ]
@@ -137,7 +134,7 @@ const getList = () => {
 };
 
 onMounted(() => {
-  // 当选择画布中的对象时，该对象不出现在顶层。
+  // When the object in the canvas is selected, the object does not appear on the top.
   canvasEditor.canvas.preserveObjectStacking = true;
   canvasEditor.canvas.on('after:render', getList);
 });

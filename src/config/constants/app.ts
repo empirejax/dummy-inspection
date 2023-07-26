@@ -1,1 +1,1 @@
-export const LANG = 'en'; // 多语言key
+export const LANG = 'en'; // 

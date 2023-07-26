@@ -4,7 +4,7 @@
       <Header v-if="state.show">
         <!-- logo -->
         <span class="logo">
-          <a href="https://github.com/nihaojob/vue-fabric-editor" target="_blank">
+          <a href="" target="_blank">
             <Icon type="logo-github" :size="30" />
           </a>
         </span>
@@ -59,12 +59,6 @@
             <div v-show="state.menuActive === 1" class="left-panel">
               <import-tmpl></import-tmpl>
             </div>
-            <!-- Commonly used elements -->
-            <div v-show="state.menuActive === 2" class="left-panel">
-              <tools></tools>
-              <fontTmpl></fontTmpl>
-              <svgEl></svgEl>
-            </div>
             <!-- Background settings -->
             <div v-show="state.menuActive === 3" class="left-panel">
               <layer></layer>
@@ -84,6 +78,7 @@
         <!-- Attribute area 380-->
         <div style="width: 530px; height: 100%; padding: 10px; overflow-y: auto; background: #fff">
           <div v-if="state.show" style="padding-top: 10px">
+            <tools></tools>
             <!-- New font style use -->
             <!-- <Button @click="getFontJson" size="small">获取字体数据</Button> -->
             <set-size></set-size>
@@ -112,9 +107,7 @@
 
 <script name="Home" setup>
 // Imported elements
-import importJSON from '@/components/importJSON.vue';
 import importFile from '@/components/importFile.vue';
-import fontTmpl from '@/components/fontTmpl.vue';
 
 // Top component
 import align from '@/components/align.vue';
@@ -133,7 +126,6 @@ import dele from '@/components/del.vue';
 // Left component
 import importTmpl from '@/components/importTmpl.vue';
 import tools from '@/components/tools.vue';
-import svgEl from '@/components/svgEl.vue';
 import bgBar from '@/components/bgBar.vue';
 import setSize from '@/components/setSize.vue';
 import replaceImg from '@/components/replaceImg.vue';
