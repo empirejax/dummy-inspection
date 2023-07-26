@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Divider plain orientation="left">{{ $t('common_elements') }}</Divider>
+    <Divider orientation="center">{{ $t('common_elements') }}</Divider>
     <div class="tool-box">
       <span @click="() => addText()" :draggable="true" @dragend="onDragend('text')">
         <svg
@@ -96,10 +96,7 @@ import { v4 as uuid } from 'uuid';
 // import initializeLineDrawing from '@/core/remove/initializeLineDrawing';
 import useSelect from '@/hooks/select';
 import { useI18n } from 'vue-i18n';
-
-// 默认属性
 const defaultPosition = { shadow: '', fontFamily: 'arial' };
-// 拖拽属性
 const dragOption = {
   left: 0,
   top: 0,
@@ -113,10 +110,10 @@ const state = reactive({
 // let drawHandler = null;
 
 const addText = (option) => {
-  const text = new fabric.IText(t('everything_is_fine'), {
+  const text = new fabric.IText(t('defect_text'), {
     ...defaultPosition,
     ...option,
-    fontSize: 80,
+    fontSize: 12,
     id: uuid(),
   });
   canvasEditor.canvas.add(text);
@@ -138,12 +135,12 @@ const addText = (option) => {
 // };
 
 const addTextBox = (option) => {
-  const text = new fabric.Textbox(t('everything_goes_well'), {
+  const text = new fabric.Textbox(t('defect_text'), {
     ...defaultPosition,
     ...option,
     splitByGrapheme: true,
-    width: 400,
-    fontSize: 80,
+    width: 60,
+    fontSize: 12,
     id: uuid(),
   });
   canvasEditor.canvas.add(text);
@@ -157,8 +154,8 @@ const addTriangle = (option) => {
   const triangle = new fabric.Triangle({
     ...defaultPosition,
     ...option,
-    width: 400,
-    height: 400,
+    width: 60,
+    height: 60,
     fill: '#92706B',
     id: uuid(),
     name: 'triangle',
@@ -173,7 +170,7 @@ const addCircle = (option) => {
   const circle = new fabric.Circle({
     ...defaultPosition,
     ...option,
-    radius: 150,
+    radius: 25,
     fill: '#57606B',
     id: uuid(),
     name: 'Circular',
@@ -190,8 +187,8 @@ const addRect = (option) => {
     ...defaultPosition,
     ...option,
     fill: '#F57274',
-    width: 400,
-    height: 400,
+    width: 60,
+    height: 60,
     id: uuid(),
     name: 'rectangle',
   });
@@ -217,9 +214,9 @@ const drawingLineModeSwitch = (isArrow) => {
   });
 };
 
-// 拖拽开始时就记录当前打算创建的元素类型
+// At the beginning of the drag, record the element type currently planned to be created
 const onDragend = (type) => {
-  // todo 拖拽优化 this.canvas.editor.dragAddItem(event, item);
+  // todo Drag and Drag and Drag this.canvas.editor.dragAddItem(event, item);
   switch (type) {
     case 'text':
       addText(dragOption);
@@ -242,23 +239,20 @@ const onDragend = (type) => {
 
 onMounted(() => {
   nextTick(() => {
-    // 线条绘制
+    // Line drawing
     // drawHandler = initializeLineDrawing(canvasEditor.canvas, defaultPosition);
 
     canvasEditor.canvas.on('drop', (opt) => {
-      // 画布元素距离浏览器左侧和顶部的距离
       const offset = {
         left: canvasEditor.canvas.getSelectionElement().getBoundingClientRect().left,
         top: canvasEditor.canvas.getSelectionElement().getBoundingClientRect().top,
       };
 
-      // 鼠标坐标转换成画布的坐标（未经过缩放和平移的坐标）
       const point = {
         x: opt.e.x - offset.left,
         y: opt.e.y - offset.top,
       };
 
-      // 转换后的坐标，restorePointerVpt 不受视窗变换的影响
       const pointerVpt = canvasEditor.canvas.restorePointerVpt(point);
       dragOption.left = pointerVpt.x;
       dragOption.top = pointerVpt.y;

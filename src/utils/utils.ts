@@ -1,11 +1,3 @@
-/*
- * @Author: 秦少卫
- * @Date: 2022-09-05 22:21:55
- * @LastEditors: 秦少卫
- * @LastEditTime: 2023-04-06 22:44:49
- * @Description: 工具文件
- */
-
 import FontFaceObserver from 'fontfaceobserver';
 import { useClipboard, useFileDialog, useBase64 } from '@vueuse/core';
 import { Message } from 'view-ui-plus';
@@ -17,8 +9,8 @@ interface Font {
 }
 
 /**
- * @description: 图片文件转字符串
- * @param {Blob|File} file 文件
+ * @description: 
+ * @param {Blob|File} file 
  * @return {String}
  */
 export function getImgStr(file: File | Blob): Promise<FileReader['result']> {
@@ -26,7 +18,7 @@ export function getImgStr(file: File | Blob): Promise<FileReader['result']> {
 }
 
 /**
- * @description: 根据json模板下载字体文件
+ * @description: 
  * @param {String} str
  * @return {Promise}
  */
@@ -35,7 +27,6 @@ export function downFontByJSON(str: string) {
   const fontFamilies: string[] = JSON.parse(str)
     .objects.filter(
       (item: Font) =>
-        // 为text 并且不为包含字体
         // eslint-disable-next-line implicit-arrow-linebreak
         item.type.includes('text') && !skipFonts.includes(item.fontFamily)
     )
@@ -48,7 +39,7 @@ export function downFontByJSON(str: string) {
 }
 
 /**
- * @description: 选择文件
+ * @description: 
  * @param {Object} options accept = '', capture = '', multiple = false
  * @return {Promise}
  */
@@ -67,10 +58,10 @@ export function selectFiles(options: {
 }
 
 /**
- * @description: 前端下载文件
- * @param { String } file 文件：网络地址/base64/blod
- * @param { String } fileName 文件名字
- * @param { String } fileExt 文件后缀名
+ * @description:
+ * @param { String } file 
+ * @param { String } fileName 
+ * @param { String } fileExt 
  * @param { String } strMimeType MIME content-type
  */
 interface IDownLoadFile {
@@ -93,15 +84,14 @@ export function downloadFile({ file, fileName, fileExt, strMimeType }: IDownLoad
 }
 
 /**
- * @description: 创建图片元素
- * @param {String} str 图片地址或者base64图片
- * @return {Promise} element 图片元素
+ * @description: 
+ * @param {String} str 
+ * @return {Promise} 
  */
 export function insertImgFile(str: string) {
   return new Promise((resolve) => {
     const imgEl = document.createElement('img');
     imgEl.src = str;
-    // 插入页面
     document.body.appendChild(imgEl);
     imgEl.onload = () => {
       resolve(imgEl);

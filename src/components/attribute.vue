@@ -1,6 +1,5 @@
 <template>
   <div class="box" v-if="mixinState.mSelectMode === 'one'">
-    <!-- 字体属性 -->
     <div v-show="textType.includes(mixinState.mSelectOneType)">
       <Divider plain orientation="left">{{ $t('attributes.font') }}</Divider>
       <div class="flex-view">
@@ -11,7 +10,6 @@
                 <div class="font-item" v-if="!item.preview">{{ item.name }}</div>
                 <div class="font-item" v-else :style="`background-image:url('${item.preview}');`">
                   {{ !item.preview ? item : '' }}
-                  <!-- 解决无法选中问题 -->
                   <span style="display: none">{{ item.name }}</span>
                 </div>
               </Option>
@@ -114,26 +112,9 @@
       </div>
     </div>
 
-    <!-- 通用属性 -->
     <div v-show="baseType.includes(mixinState.mSelectOneType)">
-      <Divider plain orientation="left">{{ $t('attributes.exterior') }}</Divider>
-      <!-- 多边形边数 -->
-      <Row v-if="mixinState.mSelectOneType === 'polygon'" :gutter="12">
-        <Col flex="0.5">
-          <InputNumber
-            v-model="baseAttr.points.length"
-            :min="3"
-            :max="30"
-            @on-change="changeEdge"
-            append="Sideline"
-          ></InputNumber>
-        </Col>
-      </Row>
-      <!-- 颜色 -->
-      <colorSelector
-        :color="baseAttr.fill"
-        @change="(value) => changeCommon('fill', value)"
-      ></colorSelector>
+      <Divider plain orientation="center">{{ $t('attributes.exterior') }}</Divider>
+      <Row v-if="mixinState.mSelectOneType === 'polygon'" :gutter="12"></Row>
       <Row :gutter="12">
         <Col flex="1">
           <InputNumber
@@ -162,20 +143,7 @@
           </div>
         </div>
       </div>
-      <div class="flex-view">
-        <div class="flex-item">
-          <span class="label">{{ $t('attributes.opacity') }}</span>
-          <div class="content slider-box">
-            <Slider
-              v-model="baseAttr.opacity"
-              @on-input="(value) => changeCommon('opacity', value)"
-            ></Slider>
-          </div>
-        </div>
-      </div>
-      <!-- 边框 -->
-      <Divider plain orientation="left">{{ $t('attributes.stroke') }}</Divider>
-
+      <Divider plain orientation="center">{{ $t('attributes.stroke') }}</Divider>
       <Row :gutter="12">
         <Col flex="1">
           <div class="ivu-col__box">
@@ -217,57 +185,10 @@
           </div>
         </Col>
       </Row>
-
-      <!-- 阴影 -->
-      <Divider plain orientation="left">{{ $t('attributes.shadow') }}</Divider>
-
-      <Row :gutter="12">
-        <Col flex="1">
-          <div class="ivu-col__box">
-            <span class="label">{{ $t('color') }}</span>
-            <div class="content">
-              <ColorPicker
-                v-model="baseAttr.shadow.color"
-                @on-change="(value) => changeCommon('color', value)"
-                alpha
-              />
-            </div>
-          </div>
-        </Col>
-        <Col flex="1">
-          <InputNumber
-            v-model="baseAttr.shadow.blur"
-            :defaultValue="0"
-            @on-change="(value) => changeShadow('blur', value)"
-            :append="$t('attributes.blur')"
-            :min="0"
-          ></InputNumber>
-        </Col>
-      </Row>
-
-      <Row :gutter="12">
-        <Col flex="1">
-          <InputNumber
-            v-model="baseAttr.shadow.offsetX"
-            :defaultValue="0"
-            @on-change="(value) => changeShadow('offsetX', value)"
-            :append="$t('attributes.offset_x')"
-          ></InputNumber>
-        </Col>
-        <Col flex="1">
-          <InputNumber
-            v-model="baseAttr.shadow.offsetY"
-            :defaultValue="0"
-            @on-change="(value) => changeShadow('offsetY', value)"
-            :append="$t('attributes.offset_y')"
-          ></InputNumber>
-        </Col>
-      </Row>
     </div>
 
-    <!-- ID属性 -->
     <div>
-      <Divider plain orientation="left">{{ $t('attributes.id') }}</Divider>
+      <Divider plain orientation="center">{{ $t('attributes.id') }}</Divider>
       <div class="flex-view">
         <div class="flex-item">
           <span class="label">{{ $t('attributes.id') }}</span>
@@ -294,7 +215,6 @@ const event = inject('event');
 const update = getCurrentInstance();
 const repoSrc = import.meta.env.APP_REPO;
 const { canvas, fabric, mixinState, canvasEditor } = useSelect();
-// 通用元素
 const baseType = [
   'text',
   'i-text',
@@ -307,9 +227,7 @@ const baseType = [
   'line',
   'arrow',
 ];
-// 文字元素
 const textType = ['i-text', 'textbox', 'text'];
-// 通用属性
 const baseAttr = reactive({
   id: '',
   opacity: 0,
@@ -328,7 +246,6 @@ const baseAttr = reactive({
   },
   points: {},
 });
-// 字体属性
 const fontAttr = reactive({
   fontSize: 0,
   fontFamily: '',
@@ -342,7 +259,6 @@ const fontAttr = reactive({
   linethrough: false,
   overline: false,
 });
-// 字体下拉列表
 const fontFamilyList = ref([...fontList]);
 const strokeDashList = [
   {
@@ -418,9 +334,7 @@ const strokeDashList = [
     label: 'Dash-8',
   },
 ];
-// 字体对齐方式
 const textAlignList = ['left', 'center', 'right'];
-// 对齐图标
 const textAlignListSvg = [
   '<svg t="1650441458823" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="3554" width="18" height="18"><path d="M198.4 198.4h341.333333c8.533333 0 14.933333 2.133333 19.2 8.533333 6.4 6.4 8.533333 12.8 8.533334 19.2v57.6c0 8.533333-2.133333 14.933333-8.533334 19.2-6.4 6.4-12.8 8.533333-19.2 8.533334h-341.333333c-8.533333 0-14.933333-2.133333-19.2-8.533334-6.4-6.4-8.533333-12.8-8.533333-19.2v-57.6c0-8.533333 2.133333-14.933333 8.533333-19.2 4.266667-4.266667 12.8-8.533333 19.2-8.533333z m0 170.666667h569.6c8.533333 0 14.933333 2.133333 19.2 8.533333 6.4 6.4 8.533333 12.8 8.533333 19.2v57.6c0 8.533333-2.133333 14.933333-8.533333 19.2-6.4 6.4-12.8 8.533333-19.2 8.533333h-569.6c-8.533333 0-14.933333-2.133333-19.2-8.533333-6.4-6.4-8.533333-12.8-8.533333-19.2v-57.6c0-8.533333 2.133333-14.933333 8.533333-19.2 4.266667-4.266667 12.8-8.533333 19.2-8.533333z m0 170.666666h454.4c8.533333 0 14.933333 2.133333 19.2 8.533334 6.4 6.4 8.533333 12.8 8.533333 19.2v57.6c0 8.533333-2.133333 14.933333-8.533333 19.2-6.4 6.4-12.8 8.533333-19.2 8.533333h-454.4c-8.533333 0-14.933333-2.133333-19.2-8.533333-6.4-6.4-8.533333-12.8-8.533333-19.2v-57.6c0-8.533333 2.133333-14.933333 8.533333-19.2 4.266667-4.266667 12.8-8.533333 19.2-8.533334z m0 170.666667h625.066667c8.533333 0 14.933333 2.133333 19.2 8.533333 6.4 6.4 8.533333 12.8 8.533333 19.2v57.6c0 8.533333-2.133333 14.933333-8.533333 19.2-6.4 6.4-12.8 8.533333-19.2 8.533334h-625.066667c-8.533333 0-14.933333-2.133333-19.2-8.533334-6.4-6.4-8.533333-12.8-8.533333-19.2v-57.6c0-8.533333 2.133333-14.933333 8.533333-19.2 4.266667-4.266667 12.8-8.533333 19.2-8.533333z" p-id="3555"></path></svg>',
   '<svg t="1650441512015" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="3704" width="18" height="18"><path d="M313.6 198.4h398.933333c8.533333 0 14.933333 2.133333 19.2 8.533333 6.4 6.4 8.533333 12.8 8.533334 19.2v57.6c0 8.533333-2.133333 14.933333-8.533334 19.2-6.4 6.4-12.8 8.533333-19.2 8.533334h-398.933333c-8.533333 0-14.933333-2.133333-19.2-8.533334-6.4-6.4-8.533333-12.8-8.533333-19.2v-57.6c0-8.533333 2.133333-14.933333 8.533333-19.2 4.266667-4.266667 10.666667-8.533333 19.2-8.533333z m-115.2 170.666667h625.066667c8.533333 0 14.933333 2.133333 19.2 8.533333 6.4 6.4 8.533333 12.8 8.533333 19.2v57.6c0 8.533333-2.133333 14.933333-8.533333 19.2-6.4 6.4-12.8 8.533333-19.2 8.533333h-625.066667c-8.533333 0-14.933333-2.133333-19.2-8.533333-6.4-6.4-8.533333-12.8-8.533333-19.2v-57.6c0-8.533333 2.133333-14.933333 8.533333-19.2 4.266667-4.266667 12.8-8.533333 19.2-8.533333z m115.2 170.666666h398.933333c8.533333 0 14.933333 2.133333 19.2 8.533334 6.4 6.4 8.533333 12.8 8.533334 19.2v57.6c0 8.533333-2.133333 14.933333-8.533334 19.2-6.4 6.4-12.8 8.533333-19.2 8.533333h-398.933333c-8.533333 0-14.933333-2.133333-19.2-8.533333-6.4-6.4-8.533333-12.8-8.533333-19.2v-57.6c0-8.533333 2.133333-14.933333 8.533333-19.2 4.266667-4.266667 10.666667-8.533333 19.2-8.533334z m-115.2 170.666667h625.066667c8.533333 0 14.933333 2.133333 19.2 8.533333 6.4 6.4 8.533333 12.8 8.533333 19.2v57.6c0 8.533333-2.133333 14.933333-8.533333 19.2-6.4 6.4-12.8 8.533333-19.2 8.533334h-625.066667c-8.533333 0-14.933333-2.133333-19.2-8.533334-6.4-6.4-8.533333-12.8-8.533333-19.2v-57.6c0-8.533333 2.133333-14.933333 8.533333-19.2 4.266667-4.266667 12.8-8.533333 19.2-8.533333z" p-id="3705"></path></svg>',
@@ -438,7 +352,7 @@ const getFreeFontList = () => {
 
 const getObjectAttr = (e) => {
   const activeObject = canvasEditor.canvas.getActiveObject();
-  // 不是当前obj，跳过
+  // Not the current obj, skip
   if (e && e.target && e.target !== activeObject) return;
   if (activeObject) {
     // base
@@ -476,7 +390,7 @@ const selectCancel = () => {
 };
 
 const init = () => {
-  // 获取字体数据
+  // Get font data
   getFreeFontList();
 
   event.on('selectCancel', selectCancel);
@@ -487,7 +401,6 @@ const init = () => {
 // 修改字体
 const changeFontFamily = (fontName) => {
   if (!fontName) return;
-  // 跳过加载的属性;
   const skipFonts = ['arial', 'Microsoft YaHei'];
   if (skipFonts.includes(fontName)) {
     const activeObject = canvasEditor.canvas.getActiveObjects()[0];
@@ -496,7 +409,6 @@ const changeFontFamily = (fontName) => {
     return;
   }
   Spin.show();
-  // 字体加载
   const font = new FontFaceObserver(fontName);
   font
     .load(null, 150000)
@@ -512,17 +424,14 @@ const changeFontFamily = (fontName) => {
     });
 };
 
-// 通用属性改变
 const changeCommon = (key, value) => {
   console.log(key, value);
   const activeObject = canvasEditor.canvas.getActiveObjects()[0];
-  // 透明度特殊转换
   if (key === 'opacity') {
     activeObject && activeObject.set(key, value / 100);
     canvasEditor.canvas.renderAll();
     return;
   }
-  // 旋转角度适配
   if (key === 'angle') {
     activeObject.rotate(value);
     canvasEditor.canvas.renderAll();
@@ -531,11 +440,9 @@ const changeCommon = (key, value) => {
   activeObject && activeObject.set(key, value);
   canvasEditor.canvas.renderAll();
 
-  // 更新属性
   getObjectAttr();
 };
 
-// 边框设置
 const borderSet = (key) => {
   const activeObject = canvasEditor.canvas.getActiveObjects()[0];
   if (activeObject) {
@@ -545,14 +452,12 @@ const borderSet = (key) => {
   }
 };
 
-// 阴影设置
 const changeShadow = () => {
   const activeObject = canvasEditor.canvas.getActiveObjects()[0];
   activeObject && activeObject.set('shadow', new fabric.Shadow(baseAttr.shadow));
   canvasEditor.canvas.renderAll();
 };
 
-// 加粗
 const changeFontWeight = (key, value) => {
   const nValue = value === 'normal' ? 'bold' : 'normal';
   fontAttr.fontWeight = nValue;
@@ -561,7 +466,6 @@ const changeFontWeight = (key, value) => {
   canvasEditor.canvas.renderAll();
 };
 
-// 斜体
 const changeFontStyle = (key, value) => {
   const nValue = value === 'normal' ? 'italic' : 'normal';
   fontAttr.fontStyle = nValue;
@@ -570,7 +474,6 @@ const changeFontStyle = (key, value) => {
   canvasEditor.canvas.renderAll();
 };
 
-// 中划
 const changeLineThrough = (key, value) => {
   const nValue = value === false;
   fontAttr.linethrough = nValue;
@@ -579,7 +482,6 @@ const changeLineThrough = (key, value) => {
   canvasEditor.canvas.renderAll();
 };
 
-// 下划
 const changeUnderline = (key, value) => {
   const nValue = value === false;
   fontAttr.underline = nValue;

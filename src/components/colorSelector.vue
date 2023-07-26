@@ -1,27 +1,5 @@
 <template>
   <div class="box">
-    <!-- Color switch -->
-    <iSwitch v-model="isGradient" size="large" class="switch">
-      <template #open>
-        <span>Gradient</span>
-      </template>
-      <template #close>
-        <span>Solid color</span>
-      </template>
-    </iSwitch>
-    <!-- Gradient -->
-    <div v-if="isGradient">
-      <div class="gradient-bar" :style="bgStr"></div>
-      <!-- Color plug -in -->
-      <div class="ivu-poptip-inner">
-        <gradientColorPicker
-          :is-gradient="true"
-          :gradient="currentGradient"
-          :on-end-change="changeGradientColor"
-        />
-      </div>
-    </div>
-
     <!-- Solid color selector -->
     <ColorPicker v-show="!isGradient" v-model="fill" @on-change="changePureColor" alpha />
   </div>

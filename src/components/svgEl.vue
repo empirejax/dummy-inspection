@@ -246,8 +246,8 @@ import { v4 as uuid } from 'uuid';
 import useSelect from '@/hooks/select';
 
 const defaultPosition = {
-  left: 100,
-  top: 100,
+  left: 150,
+  top: 150,
   shadow: '',
   fontFamily: '1-1',
 };
@@ -272,7 +272,6 @@ const dragItem = (event) => {
   });
 };
 
-// 按照类型渲染
 const addItem = (e) => {
   const url = e.target.src;
   fabric.loadSVGFromURL(url, (objects, options) => {

@@ -1,16 +1,10 @@
 <template>
   <div v-if="!mixinState.mSelectMode">
-    <Divider orientation="left" plain>{{ $t('color') }}</Divider>
-    <Form :label-width="40">
-      <FormItem prop="name">
-        <ColorPicker v-model="color" @on-change="setThisColor" alpha size="default" transfer />
-      </FormItem>
-    </Form>
-    <Divider orientation="left" plain>{{ $t('color_macthing') }}</Divider>
+    <Divider orientation="center">{{ $t('sheet_colors') }}</Divider>
     <div class="color-list">
+      <ColorPicker v-model="color" @on-change="setThisColor" alpha size="default" transfer />
       <template v-for="(item, i) in colorList" :key="item.label + i">
-        <div class="item">
-          {{ item.label }}:
+        <div class="color-row">
           <span
             v-for="color in item.color"
             :key="color"
@@ -36,10 +30,6 @@ const colorList = [
     label: t('doc_colors', { number: 1 }),
     color: ['#00003d', '#d3d3d3', '#eaeaea'],
   },
-  {
-    label: t('defect_colors'),
-    color: ['#0ad64f', '#4181ff', '#f70d1a'],
-  },
 ];
 
 const color = ref('');
@@ -62,6 +52,9 @@ function setColor(color) {
 }
 .color-list {
   padding: 10px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   .item {
     display: flex; /* Add this line */
     align-items: center; /* Add this line */
@@ -70,6 +63,7 @@ function setColor(color) {
   }
   span {
     display: inline-block;
+    margin-top: 10px;
     margin-left: 6px;
     background: #f5f5f5;
     height: 20px;
@@ -79,6 +73,11 @@ function setColor(color) {
     vertical-align: middle;
     cursor: pointer;
   }
+}
+.color-row {
+  display: flex;
+  justify-content: center;
+  width: 100%;
 }
 .img {
   width: 50px;

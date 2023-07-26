@@ -15,7 +15,6 @@
         <!--Introduction-->
         <import-JSON></import-JSON>
         <Divider type="vertical" />
-        <import-file></import-file>
         <Divider type="vertical" />
         <!-- Tab switch -->
         <Tooltip :content="$t('grid')">
@@ -31,13 +30,13 @@
 
         <div style="float: right">
           <!-- Preview -->
+          <import-file></import-file>
           <previewCurrent />
           <save></save>
-          <lang></lang>
         </div>
       </Header>
       <Content style="display: flex; height: calc(100vh - 64px)">
-        <div v-if="state.show" style="width: 380px; height: 100%; background: #fff; display: flex">
+        <div v-if="state.show" style="width: 530px; height: 100%; background: #fff; display: flex">
           <Menu
             :active-name="state.menuActive"
             accordion
@@ -45,25 +44,54 @@
             width="65px"
           >
             <MenuItem :name="1" class="menu-item">
-              <Icon type="md-star" size="24" />
+              <i class="mdi mdi-view-compact" size="24" />
               <div>{{ $t('features') }}</div>
             </MenuItem>
             <MenuItem :name="2" class="menu-item">
-              <Icon type="md-bug" size="24" />
+              <i class="mdi mdi-loupe" size="24" />
               <div>{{ $t('defects') }}</div>
             </MenuItem>
             <MenuItem :name="3" class="menu-item">
-              <Icon type="md-document" size="24" />
+              <i class="mdi mdi-book-open-page-variant" size="24" />
               <div>{{ $t('ref_docs') }}</div>
             </MenuItem>
           </Menu>
           <div class="content">
             <!-- Generate template -->
             <div v-show="state.menuActive === 1" class="left-panel">
-              <import-tmpl></import-tmpl>
+              <Divider plain orientation="center" style="font-weight: bold">
+                {{ $t('available_features') }}
+              </Divider>
+              <ul class="subtask-list">
+                <li
+                  v-for="subtask in allSubtasks"
+                  :key="subtask.subtaskAta"
+                  class="subtask-item"
+                  @click="loadSubtaskImage(subtask)"
+                >
+                  {{ subtask.subtaskDescription }}
+                </li>
+              </ul>
+            </div>
+            <!-- Subtasks -->
+            <div v-show="state.menuActive === 2" class="left-panel">
+              <Divider plain orientation="center" style="font-weight: bold">
+                {{ $t('all_defects') }}
+              </Divider>
+              <ul class="defect-list">
+                <li v-for="(defect, index) in getAllDefects()" :key="index" class="defect-item">
+                  <div class="defect-content">
+                    <h3>{{ defect.defectAta }}</h3>
+                    <p>{{ defect.defectDescription }}</p>
+                  </div>
+                </li>
+              </ul>
             </div>
             <!-- Background settings -->
             <div v-show="state.menuActive === 3" class="left-panel">
+              <Divider plain orientation="center" style="font-weight: bold">
+                {{ $t('ref_docs') }}
+              </Divider>
               <layer></layer>
             </div>
           </div>
@@ -80,8 +108,25 @@
           </div>
         </div>
         <!-- Attribute area 380-->
-        <div style="width: 530px; height: 100%; padding: 10px; overflow-y: auto; background: #fff">
+        <div
+          style="
+            width: 530px;
+            height: 100%;
+            padding: 10px;
+            margin-right: 25px;
+            overflow-y: auto;
+            background: #fff;
+          "
+        >
           <div v-if="state.show" style="padding-top: 10px">
+            <div>
+              <label for="defect-select">Select a defect:</label>
+              <select id="defect-select" v-model="state.selectedDefect" class="defect-dropdown">
+                <option v-for="(defect, index) in getAllDefects()" :key="index" :value="defect">
+                  {{ defect.defectDescription }}
+                </option>
+              </select>
+            </div>
             <tools></tools>
             <!-- New font style use -->
             <!-- <Button @click="getFontJson" size="small">获取字体数据</Button> -->
@@ -121,7 +166,6 @@ import centerAlign from '@/components/centerAlign.vue';
 import flip from '@/components/flip.vue';
 import previewCurrent from '@/components/previewCurrent';
 import save from '@/components/save.vue';
-import lang from '@/components/lang.vue';
 import clone from '@/components/clone.vue';
 import group from '@/components/group.vue';
 import zoom from '@/components/zoom.vue';
@@ -130,7 +174,6 @@ import lock from '@/components/lock.vue';
 import dele from '@/components/del.vue';
 
 // Left component
-import importTmpl from '@/components/importTmpl.vue';
 import tools from '@/components/tools.vue';
 import bgBar from '@/components/bgBar.vue';
 import setSize from '@/components/setSize.vue';
@@ -179,8 +222,53 @@ const state = reactive({
   select: null,
   ruler: false,
   enginesData: [],
+  selectedDefect: null,
 });
-
+const allSubtasks = computed(() => {
+  let subtasks = [];
+  state.enginesData.forEach((engine) => {
+    engine.engineSections.forEach((section) => {
+      section.engineParts.forEach((part) => {
+        part.tasks.forEach((task) => {
+          subtasks = subtasks.concat(task.subtasks);
+        });
+      });
+    });
+  });
+  return subtasks;
+});
+const loadSubtaskImage = (subtask) => {
+  if (subtask.subtaskImageUrl) {
+    const imgEl = document.createElement('img');
+    imgEl.src = subtask.subtaskImageUrl;
+    imgEl.onload = () => {
+      const imgInstance = new fabric.Image(imgEl, {
+        left: 100,
+        top: 100,
+      });
+      canvasEditor.canvas.add(imgInstance);
+      canvasEditor.canvas.setActiveObject(imgInstance);
+      canvasEditor.canvas.renderAll();
+    };
+  } else {
+    throw new Error('Subtask does not have a valid image URL: ' + JSON.stringify(subtask));
+  }
+};
+const getAllDefects = () => {
+  let defects = [];
+  state.enginesData.forEach((engine) => {
+    engine.engineSections.forEach((section) => {
+      section.engineParts.forEach((part) => {
+        part.tasks.forEach((task) => {
+          task.subtasks.forEach((subtask) => {
+            defects = defects.concat(subtask.subtaskDefects);
+          });
+        });
+      });
+    });
+  });
+  return defects;
+};
 onMounted(async () => {
   // Initialize fabric
   const canvas = new fabric.Canvas('canvas', {
@@ -236,6 +324,12 @@ provide('canvasEditor', canvasEditor);
 </script>
 
 <style lang="less" scoped>
+@import '@mdi/font/css/materialdesignicons.min.css';
+
+.mdi {
+  font-family: 'Material Design Icons';
+  font-size: 24px;
+}
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -278,7 +372,50 @@ provide('canvasEditor', canvasEditor);
     vertical-align: super;
   }
 }
+.subtask-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
 
+.subtask-item {
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.subtask-item:hover {
+  background: #f5f5f5;
+}
+.defect-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.defect-item {
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.defect-item:hover {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.defect-content h3 {
+  margin: 0;
+  font-size: 16px;
+  color: #333;
+}
+
+.defect-content p {
+  margin: 5px 0 0;
+  font-size: 14px;
+  color: #666;
+}
 // Attribute panel style
 :deep(.attr-item) {
   position: relative;
@@ -314,6 +451,51 @@ provide('canvasEditor', canvasEditor);
   background: #fff;
   height: var(--height);
   line-height: var(--height);
+}
+.defect-dropdown {
+  width: 75%;
+  height: 75%;
+  display: block;
+  font-size: 16px;
+  font-weight: 700;
+  color: #444;
+  line-height: 1.3;
+  padding: 0.6em 1.4em 0.5em 0.8em;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  margin: 0;
+  border: 1px solid #aaa;
+  box-shadow: 0 1px 0 1px rgba(0, 0, 0, 0.04);
+  border-radius: 0.5em;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  appearance: none;
+  background-color: #fff;
+  background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23007CB2%22%20d%3D%22M287%2069a18%2018%200%2000-13-5H18c-5%200-9%203-11%207a18%2018%200%2000-5%2013c0%205%202%209%205%2013l128%20128c4%204%208%205%2013%205s9-1%2013-5L287%2095c3-4%205-8%205-13z%22%2F%3E%3C%2Fsvg%3E');
+  background-repeat: no-repeat, repeat;
+  background-position: right 0.7em top 50%, 0 0;
+  background-size: 0.65em auto, 100%;
+}
+
+.defect-dropdown::-ms-expand {
+  display: none;
+}
+
+.defect-dropdown:hover {
+  border-color: #888;
+}
+
+.defect-dropdown:focus {
+  border-color: #aaa;
+  box-shadow: 0 0 1px 3px rgba(59, 153, 252, 0.7);
+  box-shadow: 0 0 0 3px -moz-mac-focusring;
+  color: #222;
+  outline: none;
+}
+
+.defect-dropdown option {
+  font-weight: normal;
 }
 
 .home,
