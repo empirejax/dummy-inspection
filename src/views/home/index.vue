@@ -1,6 +1,17 @@
 <template>
   <div class="home">
     <Layout>
+      <v-app-bar app flat density="default">
+        <img src="/ge_monogram_dark_gray.png" height="52" />
+        <v-app-bar-title class="px-3" style="color: #00003d">
+          EM 72-53-02 INSEPCTION 001 - STAGE 1 - INSPECTION
+        </v-app-bar-title>
+        <v-spacer></v-spacer>
+        <p style="color: white">223098870</p>
+        <v-btn icon>
+          <v-icon style="color: white">mdi-cog</v-icon>
+        </v-btn>
+      </v-app-bar>
       <Header v-if="state.show">
         <!-- logo -->
         <span class="logo">
@@ -73,6 +84,7 @@
             <dragMode v-if="state.show"></dragMode>
             <zoom></zoom>
             <!-- <mouseMenu></mouseMenu> -->
+            <!-- <EngineList></EngineList> -->
           </div>
         </div>
         <!-- Attribute area 380-->
@@ -108,7 +120,9 @@
 <script name="Home" setup>
 // Imported elements
 import importFile from '@/components/importFile.vue';
-
+// import EngineList from '../../components/enginecomponents/EngineList.vue';
+import api from '../../services/api';
+import { Engine } from '../../models/Engine';
 // Top component
 import align from '@/components/align.vue';
 import centerAlign from '@/components/centerAlign.vue';
@@ -172,9 +186,10 @@ const state = reactive({
   show: false,
   select: null,
   ruler: false,
+  enginesData: [],
 });
 
-onMounted(() => {
+onMounted(async () => {
   // Initialize fabric
   const canvas = new fabric.Canvas('canvas', {
     fireRightClick: true, // Right -click, the number of Button is 3
@@ -182,7 +197,16 @@ onMounted(() => {
     controlsAboveOverlay: true, // After beyond the clippath, the control bar still shows
   });
 
-  // 初始化编辑器
+  const response = await api.get('/engines');
+  state.enginesData = response.data.map((engineData, index) => {
+    try {
+      console.log(engineData); // to log the engine data
+      return new Engine(engineData.engineLine, engineData.engineSections);
+    } catch (error) {
+      console.error(`Error creating engine at index ${index} with data`, engineData, error);
+    }
+  });
+
   canvasEditor.init(canvas);
   canvasEditor.use(DringPlugin);
   canvasEditor.use(AlignGuidLinePlugin);
@@ -207,21 +231,6 @@ onMounted(() => {
   state.show = true;
 });
 
-// Get font data new font style use
-// getFontJson() {
-//   const activeObject = this.canvas.getActiveObject();
-//   if (activeObject) {
-//     const json = activeObject.toJSON(['id', 'gradientAngle', 'selectable', 'hasControls']);
-//     console.log(json);
-//     const fileStr = `data:text/json;charset=utf-8,${encodeURIComponent(
-//       JSON.stringify(json, null, '\t')
-//     )}`;
-//     downFile(fileStr, 'font.json');
-//     const dataUrl = activeObject.toDataURL();
-//     downFile(dataUrl, 'font.png');
-//   }
-// },
-
 const rulerSwitch = (val) => {
   if (val) {
     canvasEditor.rulerEnable();
@@ -233,6 +242,7 @@ provide('fabric', fabric);
 provide('event', event);
 provide('canvasEditor', canvasEditor);
 </script>
+
 <style lang="less" scoped>
 .logo {
   width: 30px;
