@@ -1,14 +1,7 @@
-<!--
- * @Author: 秦少卫
- * @Date: 2023-04-03 23:01:21
- * @LastEditors: 秦少卫
- * @LastEditTime: 2023-07-16 12:47:18
- * @Description: 字体文件
--->
-
 <template>
   <div style="display: inline-block">
-    <Divider plain orientation="left">{{ $t('title_template') }}</Divider>
+    <!-- <Divider plain orientation="left">{{ $t('title_template') }}</Divider> -->
+    <p class="fheading">{{ $t('title_template') }}</p>
     <Tooltip
       :content="item.label"
       v-for="(item, i) in list"
@@ -36,35 +29,8 @@ import { useI18n } from 'vue-i18n';
 const repoSrc = import.meta.env.APP_REPO;
 const { fabric, canvasEditor } = useSelect();
 const { t } = useI18n();
-const list = [
-  {
-    label: '字体',
-    tempUrl: `${repoSrc}font-tmpl/1.json`,
-    src: `${repoSrc}font-tmpl/1.png`,
-  },
-  {
-    label: '字体',
-    tempUrl: `${repoSrc}font-tmpl/2.json`,
-    src: `${repoSrc}font-tmpl/2.png`,
-  },
-  {
-    label: '字体',
-    tempUrl: `${repoSrc}font-tmpl/3.json`,
-    src: `${repoSrc}font-tmpl/3.png`,
-  },
-  {
-    label: '字体',
-    tempUrl: `${repoSrc}font-tmpl/4.json`,
-    src: `${repoSrc}font-tmpl/4.png`,
-  },
-  {
-    label: '字体',
-    tempUrl: `${repoSrc}font-tmpl/5.json`,
-    src: `${repoSrc}font-tmpl/5.png`,
-  },
-];
 
-// 插入文件
+
 const insertFile = (str) => {
   Spin.show({
     render: (h) => h('div', t('alert.loading_fonts')),
@@ -78,7 +44,7 @@ const insertFile = (str) => {
     Spin.hide();
   });
 };
-// 获取模板数据
+
 const getTempData = (tmplUrl) => {
   Spin.show({
     render: (h) => h('div', t('alert.loading_data')),
@@ -96,4 +62,11 @@ const getTempData = (tmplUrl) => {
   cursor: pointer;
   margin-right: 5px;
 }
+.fheading {
+  width: 100%;
+  text-align: center;
+  padding-top: 10px;
+  color: #999;
+}
+
 </style>

@@ -2,8 +2,8 @@
   <div v-if="!mixinState.mSelectMode">
     <Divider orientation="left" plain>{{ $t('color') }}</Divider>
     <Form :label-width="40">
-      <FormItem :label="$t('color')" prop="name">
-        <ColorPicker v-model="color" @on-change="setThisColor" alpha size="small" transfer />
+      <FormItem prop="name">
+        <ColorPicker v-model="color" @on-change="setThisColor" alpha size="default" transfer />
       </FormItem>
     </Form>
     <Divider orientation="left" plain>{{ $t('color_macthing') }}</Divider>
@@ -33,8 +33,12 @@ const { canvas, mixinState, canvasEditor } = useSelect();
 
 const colorList = [
   {
-    label: t('scenary_x', { number: 1 }),
-    color: ['#5F2B63', '#B23554', '#F27E56', '#FCE766'],
+    label: t('doc_colors', { number: 1 }),
+    color: ['#00003d', '#d3d3d3', '#eaeaea'],
+  },
+  {
+    label: t('defect_colors'),
+    color: ['#0ad64f', '#4181ff', '#f70d1a'],
   },
 ];
 
@@ -56,19 +60,13 @@ function setColor(color) {
 :deep(.ivu-form-item) {
   margin-bottom: 0;
 }
-.img {
-  width: 50px;
-  padding: 5px;
-  background: #f5f5f5;
-  margin-left: 2px;
-  height: 70px;
-  cursor: pointer;
-}
-
 .color-list {
   padding: 10px 0;
   .item {
+    display: flex; /* Add this line */
+    align-items: center; /* Add this line */
     padding-bottom: 5px;
+    margin-left: 27.5px;
   }
   span {
     display: inline-block;
@@ -81,6 +79,14 @@ function setColor(color) {
     vertical-align: middle;
     cursor: pointer;
   }
+}
+.img {
+  width: 50px;
+  padding: 5px;
+  background: #f5f5f5;
+  margin-left: 2px;
+  height: 70px;
+  cursor: pointer;
 }
 
 :deep(.ivu-divider-plain) {

@@ -1,25 +1,17 @@
 <template>
   <div class="home">
     <Layout>
-      <v-app-bar app flat density="default">
-        <img src="/ge_monogram_dark_gray.png" height="52" />
-        <v-app-bar-title class="px-3" style="color: #00003d">
-          EM 72-53-02 INSEPCTION 001 - STAGE 1 - INSPECTION
-        </v-app-bar-title>
-        <v-spacer></v-spacer>
-        <p style="color: white">223098870</p>
-        <v-btn icon>
-          <v-icon style="color: white">mdi-cog</v-icon>
-        </v-btn>
-      </v-app-bar>
+      <div class="navbar">
+        <img src="/ge_monogram_white.png" height="52" />
+        <h1 class="navbar-title">EM 72-53-02 INSEPCTION 001 - STAGE 1 - INSPECTION</h1>
+        <div class="navbar-content">
+          <p></p>
+          <button class="icon-button">
+            <i class="material-icons">settings</i>
+          </button>
+        </div>
+      </div>
       <Header v-if="state.show">
-        <!-- logo -->
-        <span class="logo">
-          <a href="" target="_blank">
-            <Icon type="logo-github" :size="30" />
-          </a>
-        </span>
-
         <!--Introduction-->
         <import-JSON></import-JSON>
         <Divider type="vertical" />
@@ -53,16 +45,16 @@
             width="65px"
           >
             <MenuItem :name="1" class="menu-item">
-              <Icon type="md-book" size="24" />
-              <div>{{ $t('templates') }}</div>
+              <Icon type="md-star" size="24" />
+              <div>{{ $t('features') }}</div>
             </MenuItem>
             <MenuItem :name="2" class="menu-item">
-              <Icon type="md-images" size="24" />
-              <div>{{ $t('elements') }}</div>
+              <Icon type="md-bug" size="24" />
+              <div>{{ $t('defects') }}</div>
             </MenuItem>
             <MenuItem :name="3" class="menu-item">
-              <Icon type="md-reorder" size="24" />
-              <div>{{ $t('layers') }}</div>
+              <Icon type="md-document" size="24" />
+              <div>{{ $t('ref_docs') }}</div>
             </MenuItem>
           </Menu>
           <div class="content">
@@ -244,6 +236,37 @@ provide('canvasEditor', canvasEditor);
 </script>
 
 <style lang="less" scoped>
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  background-color: #00003d; /* Change to your preferred color */
+  color: white;
+}
+
+.navbar-title {
+  margin-left: 10px;
+  color: white;
+}
+
+.navbar-content {
+  display: flex;
+  align-items: center;
+}
+
+.icon-button {
+  display: flex;
+  margin-right: 25px;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+
+.icon-button .material-icons {
+  font-size: 24px;
+}
 .logo {
   width: 30px;
   height: 30px;

@@ -9,16 +9,17 @@
 <template>
   <div v-if="!mixinState.mSelectMode">
     <Divider plain orientation="left">{{ $t('size') }}</Divider>
-    <Form :label-width="40" class="form-wrap">
-      <FormItem :label="$t('width')" prop="name">
-        <InputNumber disabled v-model="width" @on-change="setSize"></InputNumber>
-      </FormItem>
-      <FormItem :label="$t('height')" prop="name">
-        <InputNumber disabled v-model="height" @on-change="setSize"></InputNumber>
-      </FormItem>
-    </Form>
-    <Button type="primary" @click="() => (showModal = true)">Resize</Button>
-
+    <div class="form-wrap">
+      <Form :label-width="40">
+        <FormItem :label="$t('width')" prop="name">
+          <InputNumber disabled v-model="width" @on-change="setSize"></InputNumber>
+        </FormItem>
+        <FormItem :label="$t('height')" prop="name">
+          <InputNumber disabled v-model="height" @on-change="setSize"></InputNumber>
+        </FormItem>
+      </Form>
+      <Button type="primary" @click="() => (showModal = true)">Resize</Button>
+    </div>
     <Modal
       v-model="showModal"
       :title="$t('setSizeTip')"
@@ -125,6 +126,12 @@ const handleConfirm = () => {
 </script>
 
 <style scoped lang="less">
+.form-wrap {
+  display: flex;
+  justify-content: space-between;
+  align-items: center; /* Add this line */
+  margin-bottom: 10px;
+}
 :deep(.ivu-form-item) {
   margin-bottom: 0;
 }

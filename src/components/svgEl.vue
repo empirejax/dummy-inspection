@@ -261,13 +261,12 @@ const getIndex = (start, end) => {
 
 const dragItem = (event) => {
   const url = event.target.src;
-  // 会有性能开销 dragAddItem复用更简洁
   fabric.loadSVGFromURL(url, (objects) => {
     const item = fabric.util.groupSVGElements(objects, {
       shadow: '',
       fontFamily: 'arial',
       id: uuid(),
-      name: 'svg元素',
+      name: 'SVG element',
     });
     canvasEditor.dragAddItem(event, item);
   });
@@ -281,7 +280,7 @@ const addItem = (e) => {
       ...options,
       ...defaultPosition,
       id: uuid(),
-      name: 'svg元素',
+      name: 'SVG element',
     });
     canvasEditor.canvas.add(item);
     canvasEditor.canvas.setActiveObject(item);

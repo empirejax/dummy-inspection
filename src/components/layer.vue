@@ -28,7 +28,7 @@
       </div>
     </template>
     <template v-else>
-      <p class="empty-text">No layer</p>
+      <p class="empty-text">No docs</p>
     </template>
   </div>
 </template>
